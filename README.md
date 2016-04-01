@@ -25,5 +25,7 @@ More information at [www.eclipse.org/paho](https://www.eclipse.org/paho/clients/
 * Getting the inputs from the GPIO pins
 * Denounce the input signal 
 * Publish to the MQTT broker
+* Subscribe to the MQTT broker for the LED light signals 
+* Light the LED light sets when MQTT message is received 
 
 The programme includes a software denouncer for the input signal. Due to problem of losing published MQTT packets when the function call is too frequent (call before the packet is published) it was required to include a data buffer. Currently the MQTT publishing is done in a separate thread using the buffer. This made the programme very much sensitive to the switch signal and literally unable to fool the switch sensor. 

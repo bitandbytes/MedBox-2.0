@@ -39,7 +39,7 @@ The drawer number will be shown by the first digit and the last digit will tell 
 
 21 -> Drawer 2 open 
 
-#### MQTT LED ON/OFFg format
+#### MQTT LED ON/OFF format
 LED ON/OFF messages range only from 1-6
 
 1 – Set 1 ON

@@ -37,7 +37,7 @@ Eg: 30 -> Drawer 3 closed
 
 21 -> Drawer 2 open 
 
-#### MQTT LED lighting format
+#### MQTT LED ON/OFFg format
 LED messages range only from 1-6
 
 1 – Set 1 ON

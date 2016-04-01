@@ -33,9 +33,9 @@ The programme includes a software denouncer for the input signal. Due to problem
 #### MQTT input publishing format
 The drawer number will be shown by the first digit and the last digit will tell whether it is opened or not. 
 
-Eg: 30 -> Drawer 3 closed
+Eg:   30 -> Drawer 3 closed
 
-21 -> Drawer 2 open 
+      21 -> Drawer 2 open 
 
 #### MQTT LED ON/OFFg format
 LED messages range only from 1-6

@@ -3,18 +3,23 @@
 PATH_TO_FILE='/root/shine/input.config'
 SOURCE_FILE='mb-listener.c'
 EXE_FILE='mb-listener.elf'
-#Remote data
-remoteHost=$(awk '/^mqtt.remote.host/{print $NF}' $PATH_TO_FILE)
-clientId=$(awk '/^generic.node-id/{print $NF}' $PATH_TO_FILE)
-ledSubTopic=$(awk '/^mqtt.remote.ledSubTopic/{print $NF}' $PATH_TO_FILE)
-remotePort=$(awk '/^mqtt.remote.port/{print $NF}' $PATH_TO_FILE)
 
-#Local data
-localHost=$(awk '/^mqtt.local.host/{print $NF}' $PATH_TO_FILE)
-clientId=$(awk '/^generic.node-id/{print $NF}' $PATH_TO_FILE)
-ledPubTopic=$(awk '/^mqtt.local.pubTopic/{print $NF}' $PATH_TO_FILE)
-localPort=$(awk '/^mqtt.local.port /{print $NF}' $PATH_TO_FILE)
+if [ -e $PATH_TO_FILE ]
+then
+	#Remote data
+	remoteHost=$(awk '/^mqtt.remote.host/{print $NF}' $PATH_TO_FILE)
+	clientId=$(awk '/^generic.node-id/{print $NF}' $PATH_TO_FILE)
+	ledSubTopic=$(awk '/^mqtt.remote.ledSubTopic/{print $NF}' $PATH_TO_FILE)
+	remotePort=$(awk '/^mqtt.remote.port/{print $NF}' $PATH_TO_FILE)
 
+	#Local data
+	localHost=$(awk '/^mqtt.local.host/{print $NF}' $PATH_TO_FILE)
+	clientId=$(awk '/^generic.node-id/{print $NF}' $PATH_TO_FILE)
+	ledPubTopic=$(awk '/^mqtt.local.pubTopic/{print $NF}' $PATH_TO_FILE)
+	localPort=$(awk '/^mqtt.local.port /{print $NF}' $PATH_TO_FILE)
+else
+	echo "[ERROR] Input.config File not found"
+fi
 
 #val=$( sed -ne '/mqtt.remote.ledSubTopic/ s/.*\t *//p' $PATH_TO_FILE )
 
@@ -38,7 +43,7 @@ then
 	gcc $SOURCE_FILE -o $EXE_FILE -l wiringPi -l paho-mqtt3c
 	./$EXE_FILE
 else
-	echo "[ERROR] File not found"
+	echo "[ERROR] Source File not found"
 fi
 
 

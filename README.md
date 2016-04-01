@@ -38,6 +38,7 @@ The drawer number will be shown by the first digit and the last digit will tell 
 |MQTT Message |Meaning        |
 |:-----------:|:-------:      |
 |30           |Drawer 3 closed|
+|:-----------:| -------:      |
 |21           |Drawer 2 open  |
 
 #### MQTT LED ON/OFF format

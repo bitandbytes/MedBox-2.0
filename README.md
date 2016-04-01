@@ -1,4 +1,4 @@
-# MedBox 2.0
+﻿# MedBox 2.0
 MedBox 2.0 Programme is a sample programme written to work with the [LED Power Circuit for RPi]( https://github.com/bitandbytes/LED-power-circuit-for-RPi). The repository include the [source code]( https://github.com/bitandbytes/MedBox-2.0-progamme/blob/master/mb-listener.c) for the C programme and a [bash script]( https://github.com/bitandbytes/MedBox-2.0-progamme/blob/master/mb-listener.sh) that compile and load topics from the input file at /root/shine/input.config file. 
 ## Dependencies:
 #### wiringPi
@@ -41,15 +41,11 @@ The drawer number will be shown by the first digit and the last digit will tell 
 
 #### MQTT LED ON/OFF format
 LED ON/OFF messages range only from 1-6
-
-1 – Set 1 ON
-
-2 - Set 2 ON
-
-3 – Set 3 ON
-
-4 – Set 1 OFF
-
-5 – Set 2 OFF
-
-6 – Set 3 OFF
+|MQTT Message	|Action		|
+|:-------------:|:-------------:|
+|1 		|Set 1 ON	|
+|2 		|Set 2 ON	|
+|3 		|Set 3 ON	|
+|4 		|Set 1 OFF	|
+|5 		|Set 2 OFF	|
+|6 		|Set 3 OFF	|

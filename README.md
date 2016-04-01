@@ -16,9 +16,11 @@ make
 sudo make install
 ```
 More information at [www.eclipse.org/paho](https://www.eclipse.org/paho/clients/c/)
+
 ## Functions of the [bash script]( https://github.com/bitandbytes/MedBox-2.0-progamme/blob/master/mb-listener.sh)
 * Get input from input.config file
 * Compile the C file if the binary is not generated. 
+
 ## Functions of the [C source code]( https://github.com/bitandbytes/MedBox-2.0-progamme/blob/master/mb-listener.c)
 * Getting the inputs from the GPIO pins
 * Denounce the input signal 

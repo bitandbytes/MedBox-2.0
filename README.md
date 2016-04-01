@@ -29,3 +29,18 @@ More information at [www.eclipse.org/paho](https://www.eclipse.org/paho/clients/
 * Light the LED light sets when MQTT message is received 
 
 The programme includes a software denouncer for the input signal. Due to problem of losing published MQTT packets when the function call is too frequent (call before the packet is published) it was required to include a data buffer. Currently the MQTT publishing is done in a separate thread using the buffer. This made the programme very much sensitive to the switch signal and literally unable to fool the switch sensor. 
+
+#### MQTT input publishing format
+The drawer number will be shown by the first digit and the last digit will tell whether it is opened or not. 
+Eg: 30 -> Drawer 3 closed
+
+21 -> Drawer 2 open 
+
+#### MQTT LED lighting format
+LED messages range only from 1-6
+1 – Set 1 ON
+2 - Set 2 ON
+3 – Set 3 ON
+4 – Set 1 OFF
+5 – Set 2 OFF
+6 – Set 3 OFF

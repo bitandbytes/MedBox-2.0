@@ -25,13 +25,13 @@ fi
 
 #Saving data in input_sub file
 echo $remoteHost > input_sub.config
-echo $clientId >> input_sub.config
+echo "sub_"$clientId >> input_sub.config
 echo $ledSubTopic >> input_sub.config
 echo $remotePort >> input_sub.config
 
 #Saving data n input_pub file
 echo $localHost > input_pub.config
-echo $clientId >> input_pub.config
+echo "pub_"$clientId >> input_pub.config
 echo $ledPubTopic"_2" >> input_pub.config
 echo $localPort >> input_pub.config
 

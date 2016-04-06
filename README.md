@@ -23,7 +23,7 @@ More information at [www.eclipse.org/paho](https://www.eclipse.org/paho/clients/
 
 ## Functions of the [C source code]( https://github.com/bitandbytes/MedBox-2.0-progamme/blob/master/mb-listener.c)
 * Getting the inputs from the GPIO pins
-* Denounce the input signal 
+* Debounce the input signal 
 * Publish to the MQTT broker
 * Subscribe to the MQTT broker for the LED light signals 
 * Light the LED light sets when MQTT message is received 

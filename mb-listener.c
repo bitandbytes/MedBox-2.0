@@ -6,7 +6,8 @@
 #include "MQTTClientPersistence.h"
 #include "time.h"
 //MQTT definitions
-/*To get only the last message retain flag shouw be set when publishing, also the QOS should be set to 0*/
+//IMPORTANT:
+//To get ONLY the last message 'RETAIN FLAG' should be SET when publishing, also the QOS should be set to 0 when publishing to the LED on/off topic
 #define QOS         2
 #define TIMEOUT     10000L
 

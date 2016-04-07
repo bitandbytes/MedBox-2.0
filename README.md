@@ -2,8 +2,10 @@
 MedBox 2.0 Programme is a sample programme written to work with the [LED Power Circuit for RPi]( https://github.com/bitandbytes/LED-power-circuit-for-RPi). The repository include the [source code]( https://github.com/bitandbytes/MedBox-2.0-progamme/blob/master/mb-listener.c) for the C programme and a [bash script]( https://github.com/bitandbytes/MedBox-2.0-progamme/blob/master/mb-listener.sh) that compile and load topics from the input file at /root/shine/input.config file. 
 
 Even though the programme is written in one source code the two operations 
+
 1.	Getting Reed switch data and publishing
 2.	LED ON/OFF depending on the received message 
+
 is totally independent operations. So if required the two parts could be separated and the two programmes will be much more simpler and modular. 
 
 ## Dependencies:

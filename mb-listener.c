@@ -11,18 +11,18 @@
 #define TIMEOUT     10000L
 
 //wiringPi definitions
-#define LED_1           02
+#define LED_1           02	//GPIO numbers for the LED inputs
 #define LED_2           03
 #define LED_3           04
-#define SWITCH_1        21
+#define SWITCH_1        21	//Reed Switch input GPIO pins
 #define SWITCH_2        13
 #define SWITCH_3        16
 #define TRUE            1
 #define FALSE           0
-#define debounceDelay	50
-#define interruptDelay  10 
-#define LOCK_KEY	0
-int boxStatus_1 = 0;
+#define debounceDelay	50	//Delay until the signal settles down 
+#define interruptDelay  10 	//Delay for the next interrupt. High the number lesser the bounce interrupts that it will catch. Controls the sensitivity of the interrupt 
+#define LOCK_KEY	0	//Memeory lock key. More info at http://wiringpi.com/reference/priority-interrupts-and-threads/
+int boxStatus_1 = 0;		//Global variables for box status 
 int boxStatus_2 = 0;
 int boxStatus_3 = 0;
 int threadFlag = 0;
@@ -49,7 +49,7 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 void connlost(void *context, char *cause);
 
 volatile MQTTClient_deliveryToken deliveredtoken;
-
+// Create Que function
 Queue * createQueue(int maxElements)
 {
         /* Create a Queue */
@@ -64,7 +64,7 @@ Queue * createQueue(int maxElements)
         /* Return the pointer */
         return Q;
 }
-
+// Delete values from the que
 void dequeue(Queue *Q)
 {
         /* If Queue size is zero then it is empty. So we cannot pop */
@@ -86,7 +86,7 @@ void dequeue(Queue *Q)
         }
         return;
 }
-
+//Return the value in front
 int front(Queue *Q)
 {
         if(Q->size==0)
@@ -97,7 +97,7 @@ int front(Queue *Q)
         /* Return the element which is at the front*/
         return Q->elements[Q->front];
 }
-
+//Add values to the que
 void enqueue(Queue *Q,int element)
 {
         /* If the Queue is full, we cannot push an element into it as there is no space for it.*/
@@ -119,7 +119,7 @@ void enqueue(Queue *Q,int element)
         }
         return;
 }
-
+//Interrupt fuction 1 for switch 1
 void interruptFunc_1(void){
 	printf("$Time: %f\n",(float)(clock()/1000000.0F)*1000);
 	printf("Interrupt Occured 1\n");
@@ -128,26 +128,27 @@ void interruptFunc_1(void){
 	printf("Interrupt End 1\n");
 	printf("$Time: %f\n",(float)(clock()/1000000.0F)*1000);
 }
-
+//Interrupt fuction 2 for switch 2
 void interruptFunc_2(void){
         printf("Interrupt Occured 2\n");
         delay(interruptDelay);                             //Level of sensitivity of the interrupt(higher the delay less$
         boxStatus_2 = digitalRead(SWITCH_2);
         printf("Interrupt End 2\n");
 }
-
+//Interrupt fuction 3 for switch 3
 void interruptFunc_3(void){
         printf("Interrupt Occured 3\n");
         delay(interruptDelay);                             //Level of sensitivity of the interrupt(higher the delay less$
         boxStatus_3 = digitalRead(SWITCH_3);
         printf("Interrupt End 3\n");
 }
+//Lock the thread and add data to the Que name ‘Q’ (Lock in due accessing the Que)
 void publishBoxStatus(int drawer,int boxStatus){ 
 	piLock(LOCK_KEY);
 	enqueue(Q,drawer+boxStatus);
 	piUnlock(LOCK_KEY);
 }
-
+//LED switch case
 void lightLED(char LED){
 	switch(LED){
 	case '1' : digitalWrite(LED_1,HIGH); break;
@@ -160,13 +161,13 @@ void lightLED(char LED){
 	default  : printf("Invalid MQTT message\n   message: ");break;
 	}
 }
-
+//Default function in MQTT paho (Delivery token is received. Only works in QoS 2)
 void delivered(void *context, MQTTClient_deliveryToken dt)
 {
     printf("Message with token value %d delivery confirmed\n", dt);
     deliveredtoken = dt;
 }
-
+//Default function in MQTT paho (Runs when msg is received)
 int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)
 {
     int i;
@@ -191,13 +192,13 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     MQTTClient_free(topicName);
     return 1;
 }
-
+//Default function in MQTT paho (Runs when the MQTT connection is lost)
 void connlost(void *context, char *cause)
 {
     printf("\nConnection lost\n");
     printf("     cause: %s\n", cause);
 }
-
+// Thread that publishes the data using MQTT in the Que
 PI_THREAD (mqttStream)
 {
 
@@ -227,7 +228,7 @@ PI_THREAD (mqttStream)
      	fscanf(fp,"%s",PORT);
      	sprintf(ADDRESS,"%s:%s",ADDRESS,PORT);
      	fclose(fp);
-
+	//For ever loop which publises data. More info at http://www.eclipse.org/paho/files/mqttdoc/Cclient/index.html
 	while(1)
 	{
 		if(Q->size != 0)
@@ -277,7 +278,7 @@ PI_THREAD (mqttStream)
 
 int main(int argc, char* argv[])
 {
-    //Getting input from the file
+    //Getting input from the file for subscribing
     char ADDRESS[50];
     char CLIENTID[23];
     char TOPIC[80];
@@ -325,7 +326,7 @@ int main(int argc, char* argv[])
     digitalWrite(LED_2, LOW);
     digitalWrite(LED_3, LOW);
 
-    //MQTT Setup
+    //MQTT Setup for subscribing
     MQTTClient client;
     MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
     int rc;
@@ -361,10 +362,11 @@ int main(int argc, char* argv[])
 
     do 
     {
+    	//if the previous mode is not the status now publish else do nothing
 	if(previousBoxStatus_1 != boxStatus_1){
 		delay(debounceDelay);			//Time delay after an interrupt for the signal to be stable
-		publishBoxStatus(10,boxStatus_1);	//TODO try to use a seperate thread to send mqtt message
-		previousBoxStatus_1 = boxStatus_1;	//Box open close status is identified correctly, the mqtt message loss is the problem
+		publishBoxStatus(10,boxStatus_1);
+		previousBoxStatus_1 = boxStatus_1;	
 	}
 	if(previousBoxStatus_2 != boxStatus_2){
                 delay(debounceDelay);                     //Time delay after an interrupt for the signal to be stable
@@ -376,8 +378,6 @@ int main(int argc, char* argv[])
                 publishBoxStatus(30,boxStatus_3);
                 previousBoxStatus_3 = boxStatus_3;
         }
-
-//if the previous mode is not the status now publish else do nothing	
        // ch = getchar();
     } while(ch!='Q' && ch != 'q');
 

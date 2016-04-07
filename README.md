@@ -4,7 +4,7 @@ MedBox 2.0 Programme is a sample programme written to work with the [LED Power C
 Even though the programme is written in one source code the two operations 
 
 1.	Getting Reed switch data and publishing
-2.	LED ON/OFF depending on the received message 
+2.	LED ON/OFF depending on the received messages
 
 is totally independent operations. So if required the two parts could be separated and the two programmes will be much more simpler and modular. 
 

@@ -8,7 +8,7 @@ Even though the programme is written in one source code the two operations
 
 are totally independent operations. So if required the two parts could be separated and the two programmes will be much more simpler and modular. 
 
-## Dependencies:
+## Preliminaries:
 #### wiringPi
 ```sh
 git clone git://git.drogon.net/wiringPi
